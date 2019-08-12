@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{%  block title %} Todolist app {% endblock %}
+
+{%  block body %}
+        <div></div>
+        <h1>Todo list</h1>
+        <hr />
+        <form action="{{ path('create_todo_list') }}" method="post" >
+                <div class="form-group">
+                        <label for="title">Title</label>
+                        <input type="text" class="form-control" id="title" name="title" placeholder="Enter title">
+                </div>
+                <button class="btn btn-primary">Add a task</button>
+        </form>
+        <hr />
+        <div>
+                <ul class="list-group">
+                        {% for task in tasks %}
+                        <li class="list-group-item">
+                                <span>{{ task.title }}</span>
+                                <a class="float-right"  href="{{ path('switch_status', { 'id' : task.id }) }}">Switch status</a>
+                                <a class="switch-link float-right" href="{{ path('delete_task', { 'id' : task.id }) }}" >
+                                   <span>Delete</span>
+                                </a>
+                        </li>
+                        {% endfor %}
+                </ul>
+        </div>
+
+{%  endblock %}
+
+
+{% block javascripts %}
+   <script>
+           (function () {
+                document.querySelectorAll('.switch-link').forEach(function(link) {
+
+                        link.onclick = function () {
+                                return confirm('Would you like to delete this?');
+                        };
+                })
+
+
+
+           })();
+   </script>
+{% endblock %}
